@@ -3,6 +3,7 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.OptionsTicket;
+import ru.netology.domain.TicketByTimeAscComparator;
 import ru.netology.repository.OptionsTicketRepository;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class OptionsTicketManagerTest {
     OptionsTicketRepository repository = new OptionsTicketRepository();
     OptionsTicketManager manager = new OptionsTicketManager(repository);
+    TicketByTimeAscComparator comparator = new TicketByTimeAscComparator();
 
     OptionsTicket one = new OptionsTicket(1,5000,"LED","GOJ",180);
     OptionsTicket two = new OptionsTicket(2,5000,"KUF","OGZ",210);
@@ -26,7 +28,7 @@ public class OptionsTicketManagerTest {
 
     @Test
     public void findWay() {
-        OptionsTicket[] actual = manager.findAll("KUF", "OGZ");
+        OptionsTicket[] actual = manager.findAll("KUF", "OGZ",comparator);
         OptionsTicket[] expected = new OptionsTicket[]{two};
 
         assertArrayEquals(expected, actual);
@@ -34,7 +36,7 @@ public class OptionsTicketManagerTest {
 
     @Test
     public void findWays() {
-        OptionsTicket[] actual = manager.findAll("LED", "GOJ");
+        OptionsTicket[] actual = manager.findAll("LED", "GOJ",comparator);
         OptionsTicket[] expected = new OptionsTicket[]{one,four};
 
         assertArrayEquals(expected, actual);
@@ -42,7 +44,7 @@ public class OptionsTicketManagerTest {
 
     @Test
     public void findWaysToNot() {
-        OptionsTicket[] actual = manager.findAll("GOJ", "OGZ");
+        OptionsTicket[] actual = manager.findAll("GOJ", "OGZ",comparator);
         OptionsTicket[] expected = new OptionsTicket[]{};
 
         assertArrayEquals(expected, actual);

@@ -4,6 +4,7 @@ import ru.netology.domain.OptionsTicket;
 import ru.netology.repository.OptionsTicketRepository;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class OptionsTicketManager {
     private OptionsTicketRepository repository;
@@ -16,7 +17,7 @@ public class OptionsTicketManager {
         repository.add(way);
     }
 
-    public OptionsTicket[] findAll(String from, String to) {
+    public OptionsTicket[] findAll(String from, String to, Comparator<OptionsTicket> comparator) {
         OptionsTicket[] ways = new OptionsTicket[0];
         for (OptionsTicket way : repository.findAll()) {
             if (way.getFrom().equals(from) && way.getTo().equals(to)) {
@@ -26,7 +27,7 @@ public class OptionsTicketManager {
                 ways = tmp;
             }
         }
-        Arrays.sort(ways);
+        Arrays.sort(ways, comparator);
         return ways;
     }
 }
